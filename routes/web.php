@@ -30,7 +30,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 		return Inertia::render('Dashboard');
 	})->name('dashboard');
 
-	Route::resource('/communities', CommunityController::class);
+	Route::resource('communities', CommunityController::class);
 });
 
 require __DIR__ . '/auth.php';

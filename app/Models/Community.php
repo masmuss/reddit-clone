@@ -15,4 +15,9 @@ class Community extends Model
 		'description',
 		'slug',
 	];
+
+	public function user()
+	{
+		return $this->belongsTo(User::class);
+	}
 }
