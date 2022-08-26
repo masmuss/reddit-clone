@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CommunityStoreRequest;
 use App\Models\Community;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Illuminate\Support\Str;
 
@@ -42,7 +42,7 @@ class CommunityController extends Controller
 	public function store(CommunityStoreRequest $request)
 	{
 		if ($request->validated()) {
-			$slug = Str::slug($request->name) . '-' . Str::random(6);
+			$slug = Str::slug($request->name) . '-' . strtolower(Str::random(6));
 			$community = Community::create([
 				'user_id' => auth()->id(),
 				'name' => $request->name,
@@ -50,8 +50,8 @@ class CommunityController extends Controller
 				'slug' => $slug,
 			]);
 
-			// return to_route('communities.show', $community->slug);
-			return $community;
+			return to_route('communities.index')
+				->with('message', 'Community created successfully.');
 		}
 	}
 
@@ -61,7 +61,7 @@ class CommunityController extends Controller
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function show($id)
+	public function show(Community $community)
 	{
 		//
 	}
@@ -72,31 +72,47 @@ class CommunityController extends Controller
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function edit($id)
+	public function edit(Community $community)
 	{
-		//
+		return Inertia::render('Community/Edit', [
+			'community' => $community,
+		]);
 	}
 
 	/**
 	 * Update the specified resource in storage.
 	 *
 	 * @param  \Illuminate\Http\Request  $request
-	 * @param  int  $id
+	 * @param  Community  $community
 	 * @return \Illuminate\Http\Response
 	 */
-	public function update(Request $request, $id)
+	public function update(CommunityStoreRequest $request, Community $community)
 	{
-		//
+		if ($request->validated()) {
+			$slug = explode('-', $community->slug);
+			$slug = end($slug);
+
+			$community->update([
+				'name' => $request->name,
+				'slug' => Str::slug($request->name) . '-' . $slug,
+				'description' => $request->description,
+			]);
+
+			return to_route('communities.index')
+				->with('message', 'Community updated successfully.');
+		}
 	}
 
 	/**
 	 * Remove the specified resource from storage.
 	 *
-	 * @param  int  $id
+	 * @param  Community  $community
 	 * @return \Illuminate\Http\Response
 	 */
-	public function destroy($id)
+	public function destroy(Community $community)
 	{
-		//
+		$community->delete();
+		return back()
+			->with('message', 'Community deleted successfully.');
 	}
 }

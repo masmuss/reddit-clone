@@ -70,10 +70,16 @@ defineProps({
 							<td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
 								{{ community.slug }}
 							</td>
-							<td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-								<Link :href="route('communities.show', { community: community.slug })">
+							<td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 space-x-2">
+								<Link :href="route('communities.edit', { community: community.id })">
 								<Button>
-									View
+									Edit
+								</Button>
+								</Link>
+								<Link :href="route('communities.destroy', { community: community.id })" method="delete"
+									as="button" type="button">
+								<Button>
+									Delete
 								</Button>
 								</Link>
 							</td>
