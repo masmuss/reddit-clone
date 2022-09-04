@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CommunityStoreRequest;
 use App\Models\Community;
-use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Illuminate\Support\Str;
 
@@ -19,7 +18,12 @@ class CommunityController extends Controller
 	public function index()
 	{
 		return Inertia::render('Community/Index', [
-			'communities' => Community::with('user')->latest()->get(),
+			'communities' => Community::paginate(10)->through(fn ($community) => [
+				'id' => $community->id,
+				'name' => $community->name,
+				'description' => $community->description,
+				'slug' => $community->slug,
+			]),
 		]);
 	}
 
@@ -42,12 +46,11 @@ class CommunityController extends Controller
 	public function store(CommunityStoreRequest $request)
 	{
 		if ($request->validated()) {
-			$slug = Str::slug($request->name) . '-' . strtolower(Str::random(6));
-			$community = Community::create([
+			Community::create([
 				'user_id' => auth()->id(),
 				'name' => $request->name,
 				'description' => $request->description,
-				'slug' => $slug,
+				'slug' => Str::slug($request->name),
 			]);
 
 			return to_route('communities.index')
@@ -89,12 +92,9 @@ class CommunityController extends Controller
 	public function update(CommunityStoreRequest $request, Community $community)
 	{
 		if ($request->validated()) {
-			$slug = explode('-', $community->slug);
-			$slug = end($slug);
-
 			$community->update([
 				'name' => $request->name,
-				'slug' => Str::slug($request->name) . '-' . $slug,
+				'slug' => Str::slug($request->name),
 				'description' => $request->description,
 			]);
 
