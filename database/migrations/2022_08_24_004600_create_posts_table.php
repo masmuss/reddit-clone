@@ -18,9 +18,9 @@ return new class extends Migration
 			$table->foreignId('community_id')->references('id')->on('communities')->onDelete('cascade');
 			$table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
 			$table->string('title');
-			$table->string('slug');
-			$table->text('url');
-			$table->text('description');
+			$table->string('slug')->unique();
+			$table->text('url')->nullable();
+			$table->text('description')->nullable();
 			$table->softDeletes();
 			$table->timestamps();
 		});

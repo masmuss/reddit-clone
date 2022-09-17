@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backend\CommunityController;
+use App\Http\Controllers\Backend\CommunityPostController;
 use App\Http\Controllers\Frontend\SubredditController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -35,6 +36,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 	})->name('dashboard');
 
 	Route::resource('communities', CommunityController::class);
+	Route::resource('community.post', CommunityPostController::class);
 });
 
 require __DIR__ . '/auth.php';

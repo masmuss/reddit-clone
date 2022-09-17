@@ -12,6 +12,8 @@ class SubredditController extends Controller
 	public function show($slug)
 	{
 		$subreddit = Community::where('slug', $slug)->first();
-		return Inertia::render('Frontend/Subreddit/Index', compact('subreddit'));
+		$posts = $subreddit->posts()->with('user')->latest()->get();
+
+		return Inertia::render('Frontend/Subreddit/Index', compact('subreddit', 'posts'));
 	}
 }
