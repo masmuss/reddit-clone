@@ -6,6 +6,10 @@ import Button from "@/Components/Button.vue";
 import Input from "@/Components/Input.vue";
 import InputError from "@/Components/InputError.vue";
 import Label from "@/Components/Label.vue";
+import { useToast } from "vue-toastification";
+import "vue-toastification/dist/index.css";
+
+const toast = useToast();
 
 const props = defineProps({
 	community: Object,
@@ -20,7 +24,10 @@ const form = useForm({
 
 const submit = () => {
 	form.post(route("community.post.store", props.community.slug), {
-		onFinish: () => form.reset("title", "url", "description"),
+		onFinish: () => {
+			form.reset("title", "url", "description");
+			toast.success("Post created successfully!");
+		},
 	});
 };
 </script>

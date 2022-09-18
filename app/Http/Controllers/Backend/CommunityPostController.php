@@ -27,6 +27,7 @@ class CommunityPostController extends Controller
 				'description' => $request->description,
 			]);
 		}
-		return Redirect::route('subreddit.index', $community->slug);
+		return Redirect::route('subreddit.index', $community->slug)
+			->with('message', 'Post created successfully');
 	}
 }

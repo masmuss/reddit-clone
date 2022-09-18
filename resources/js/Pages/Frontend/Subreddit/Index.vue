@@ -1,7 +1,9 @@
 <script setup>
-import { ref, reactive, defineProps, watch } from "vue";
-import FrontendLayout from "@/Layouts/Frontend.vue";
+import { defineProps } from "vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
+import FrontendLayout from "@/Layouts/Frontend.vue";
+import PostCard from "@/Components/PostCard.vue";
+import Sidebar from "@/Components/Sidebar.vue";
 
 const props = defineProps({
 	subreddit: {
@@ -10,39 +12,20 @@ const props = defineProps({
 	},
 	posts: Object,
 });
-
-const timeAgo = (date) => {
-	const seconds = Math.floor((new Date() - new Date(date)) / 1000);
-
-	let interval = Math.floor(seconds / 31536000);
-
-	if (interval > 1) {
-		return interval + " years";
-	}
-	interval = Math.floor(seconds / 2592000);
-	if (interval > 1) {
-		return interval + " months";
-	}
-	interval = Math.floor(seconds / 86400);
-	if (interval > 1) {
-		return interval + " days";
-	}
-	interval = Math.floor(seconds / 3600);
-	if (interval > 1) {
-		return interval + " hours";
-	}
-	interval = Math.floor(seconds / 60);
-	if (interval > 1) {
-		return interval + " minutes";
-	}
-	return Math.floor(seconds) + " seconds";
-};
-
 </script>
 
 <template>
 	<FrontendLayout>
 		<Head :title="subreddit.name" />
+
+		<template #header>
+			<div>
+				<h2 class="text-xl font-semibold leading-tight text-gray-800">
+					r/{{ subreddit.name }}
+				</h2>
+			</div>
+		</template>
+
 		<div class="flex justify-between py-10">
 			<h2 class="text-xl font-semibold leading-tight text-gray-800">
 				{{ subreddit.name }}
@@ -56,31 +39,19 @@ const timeAgo = (date) => {
 			</Link>
 		</div>
 
-		<div v-for="post in posts" :key="post.slug">
-			<!-- make a card component using tailwind -->
-			<div class="mb-4 rounded-lg bg-white p-4 shadow-lg">
-				<div class="flex justify-between">
-					<div class="flex">
-						<div>
-							<h3 class="text-lg font-semibold text-gray-800">
-								{{ post.title }}
-							</h3>
-							<p class="text-sm text-gray-600">
-								Posted by
-								<span class="font-semibold text-gray-800">
-									{{ post.user.name }}
-								</span>
-								{{ timeAgo(post.created_at) }} ago
-							</p>
-						</div>
-					</div>
-					<div>
-						<span class="text-sm text-gray-600">
-							{{ post.comments_count }} comments
-						</span>
-					</div>
-				</div>
+		<main class="container mx-auto">
+			<div class="mx-auto flex w-[960px]">
+				<section class="w-2/3">
+					<PostCard
+						v-for="post in posts.data"
+						:post="post"
+						:subreddit="subreddit"
+					/>
+				</section>
+				<section class="ml-5 w-1/3">
+					<Sidebar />
+				</section>
 			</div>
-		</div>
+		</main>
 	</FrontendLayout>
 </template>
