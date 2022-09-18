@@ -12,9 +12,17 @@ class SubredditController extends Controller
 {
 	public function show($slug)
 	{
+		if (!Community::where('slug', $slug)->first()) {
+			return abort(404);
+		}
+
 		$subreddit = Community::where('slug', $slug)->first();
 		$posts = CommunityPostResource::collection($subreddit->posts()->with('user')->paginate(10));
+		$communities = Community::all();
 
-		return Inertia::render('Frontend/Subreddit/Index', compact('subreddit', 'posts'));
+		return Inertia::render(
+			'Frontend/Subreddit/Index',
+			compact('subreddit', 'posts', 'communities')
+		);
 	}
 }

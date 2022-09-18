@@ -4,6 +4,7 @@ import { Head, Link } from "@inertiajs/inertia-vue3";
 import FrontendLayout from "@/Layouts/Frontend.vue";
 import PostCard from "@/Components/PostCard.vue";
 import Sidebar from "@/Components/Sidebar.vue";
+import Pagination from "@/Components/Pagination.vue";
 
 const props = defineProps({
 	subreddit: {
@@ -11,6 +12,7 @@ const props = defineProps({
 		required: true,
 	},
 	posts: Object,
+	communities: Object,
 });
 </script>
 
@@ -21,25 +23,12 @@ const props = defineProps({
 		<template #header>
 			<div>
 				<h2 class="text-xl font-semibold leading-tight text-gray-800">
-					r/{{ subreddit.name }}
+					r/{{ subreddit.slug }}
 				</h2>
 			</div>
 		</template>
 
-		<div class="flex justify-between py-10">
-			<h2 class="text-xl font-semibold leading-tight text-gray-800">
-				{{ subreddit.name }}
-			</h2>
-			<Link
-				v-if="$page.props.auth.authenticated"
-				:href="route('community.post.create', subreddit.slug)"
-				class="rounded bg-slate-800 px-4 py-2 text-slate-100 shadow-sm transition-all hover:bg-slate-600"
-			>
-				Create Post
-			</Link>
-		</div>
-
-		<main class="container mx-auto">
+		<main class="container mx-auto py-5">
 			<div class="mx-auto flex w-[960px]">
 				<section class="w-2/3">
 					<PostCard
@@ -47,9 +36,10 @@ const props = defineProps({
 						:post="post"
 						:subreddit="subreddit"
 					/>
+					<Pagination :links="posts.meta.links" />
 				</section>
-				<section class="ml-5 w-1/3">
-					<Sidebar />
+				<section class="ml-6 w-1/3">
+					<Sidebar :subreddit="subreddit" :communities="communities" />
 				</section>
 			</div>
 		</main>
