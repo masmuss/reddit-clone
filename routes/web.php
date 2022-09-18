@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Backend\CommunityController;
 use App\Http\Controllers\Backend\CommunityPostController;
+use App\Http\Controllers\Frontend\PostController;
 use App\Http\Controllers\Frontend\SubredditController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -29,6 +30,7 @@ Route::get('/', function () {
 
 // for frontend routes
 Route::get('/r/{slug}', [SubredditController::class, 'show'])->name('subreddit.index');
+Route::get('/r/{community:slug}/post/{post:slug}', [PostController::class, 'show'])->name('frontend.post.show');
 
 Route::group(['middleware' => ['auth', 'verified']], function () {
 	Route::get('/dashboard', function () {

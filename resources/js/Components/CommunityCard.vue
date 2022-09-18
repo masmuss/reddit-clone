@@ -18,7 +18,7 @@ defineProps({
 			<div class="flex flex-col font-medium">
 				<a
 					:href="route('subreddit.index', community.slug)"
-					class="text-xs text-black"
+					class="text-xs text-black hover:underline"
 				>
 					r/{{ community.slug }}
 				</a>
@@ -26,9 +26,9 @@ defineProps({
 			</div>
 			<div class="ml-auto flex">
 				<button
-					class="bg-blue-dark ml-auto rounded px-4 text-xs font-semibold text-white"
+					class="ml-auto rounded-full bg-slate-700 px-9 text-sm font-semibold text-white hover:bg-slate-600"
 				>
-					SUBSCRIBE
+					Join
 				</button>
 			</div>
 		</div>

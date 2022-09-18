@@ -1,5 +1,6 @@
 <script setup>
 import { defineProps } from "vue";
+import { Link } from "@inertiajs/inertia-vue3";
 
 const props = defineProps({
 	subreddit: {
@@ -12,7 +13,8 @@ const props = defineProps({
 
 <template>
 	<div class="py-2">
-		<div
+		<Link
+			:href="route('frontend.post.show', [subreddit.slug, post.slug])"
 			class="shadow-m flex max-w-3xl cursor-pointer gap-4 rounded-md border border-gray-200 bg-white p-3 hover:border-gray-500"
 		>
 			<div class="flex flex-col items-start gap-1">
@@ -119,6 +121,6 @@ const props = defineProps({
 					</div>
 				</div>
 			</div>
-		</div>
+		</Link>
 	</div>
 </template>
