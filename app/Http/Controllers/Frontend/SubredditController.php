@@ -17,7 +17,7 @@ class SubredditController extends Controller
 		}
 
 		$subreddit = Community::where('slug', $slug)->first();
-		$posts = CommunityPostResource::collection($subreddit->posts()->with('user')->paginate(10));
+		$posts = CommunityPostResource::collection($subreddit->posts()->with('user')->get());
 		$communities = Community::all();
 
 		return Inertia::render(

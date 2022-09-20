@@ -5,7 +5,6 @@ import CommunityCard from "@/Components/CommunityCard.vue";
 
 defineProps({
 	subreddit: Object,
-	communities: Object,
 });
 </script>
 
@@ -49,7 +48,7 @@ defineProps({
 			</div>
 			<div class="pb-4">
 				<CommunityCard
-					v-for="community in communities"
+					v-for="community in $page.props.communities"
 					:key="community.id"
 					:community="community"
 				/>

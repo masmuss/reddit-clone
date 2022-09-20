@@ -1,8 +1,6 @@
 <script setup>
 import { ref } from "vue";
 import BreezeApplicationLogo from "@/Components/ApplicationLogo.vue";
-import BreezeNavLink from "@/Components/NavLink.vue";
-import BreezeResponsiveNavLink from "@/Components/ResponsiveNavLink.vue";
 import { Link } from "@inertiajs/inertia-vue3";
 
 const showingNavigationDropdown = ref(false);
@@ -21,22 +19,6 @@ const showingNavigationDropdown = ref(false);
 								<Link :href="route('dashboard')">
 									<BreezeApplicationLogo class="block h-9 w-auto" />
 								</Link>
-							</div>
-
-							<!-- Navigation Links -->
-							<div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-								<BreezeNavLink
-									:href="route('dashboard')"
-									:active="route().current('dashboard')"
-								>
-									Dashboard
-								</BreezeNavLink>
-								<BreezeNavLink
-									:href="route('communities.index')"
-									:active="route().current('communities.*')"
-								>
-									Communities
-								</BreezeNavLink>
 							</div>
 						</div>
 
@@ -81,26 +63,6 @@ const showingNavigationDropdown = ref(false);
 							</button>
 						</div>
 					</div>
-				</div>
-
-				<!-- Responsive Navigation Menu -->
-				<div
-					:class="{
-						block: showingNavigationDropdown,
-						hidden: !showingNavigationDropdown,
-					}"
-					class="sm:hidden"
-				>
-					<div class="space-y-1 pt-2 pb-3">
-						<BreezeResponsiveNavLink
-							:href="route('dashboard')"
-							:active="route().current('dashboard')"
-						>
-							Dashboard
-						</BreezeResponsiveNavLink>
-					</div>
-
-					<!-- Responsive Settings Options -->
 				</div>
 			</nav>
 
