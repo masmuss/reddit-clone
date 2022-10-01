@@ -22,7 +22,29 @@ const showingNavigationDropdown = ref(false);
 							</div>
 						</div>
 
-						<div class="hidden sm:ml-6 sm:flex sm:items-center"></div>
+						<div class="hidden sm:ml-6 sm:flex sm:items-center">
+							<Link
+								v-if="$page.props.auth.user"
+								:href="route('dashboard')"
+								class="text-sm text-gray-700 underline dark:text-gray-500"
+								>{{ $page.props.auth.user.name }}</Link
+							>
+
+							<template v-else>
+								<Link
+									:href="route('login')"
+									class="text-sm text-gray-700 underline dark:text-gray-500"
+									>Log in</Link
+								>
+
+								<Link
+									v-if="canRegister"
+									:href="route('register')"
+									class="ml-4 text-sm text-gray-700 underline dark:text-gray-500"
+									>Register</Link
+								>
+							</template>
+						</div>
 
 						<!-- Hamburger -->
 						<div class="-mr-2 flex items-center sm:hidden">

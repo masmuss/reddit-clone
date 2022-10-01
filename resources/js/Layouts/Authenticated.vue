@@ -139,7 +139,7 @@ const showingNavigationDropdown = ref(false);
 					<div class="space-y-1 pt-2 pb-3">
 						<BreezeResponsiveNavLink
 							:href="route('communities.index')"
-							:active="route().contains('communities')"
+							:active="$page.url.startsWith(route('communities.index'))"
 						>
 							Communities
 						</BreezeResponsiveNavLink>

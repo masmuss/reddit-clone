@@ -16,7 +16,7 @@ class SubredditController extends Controller
 			return abort(404);
 		}
 
-		$subreddit = Community::where('slug', $slug)->first();
+		$subreddit = Community::where('slug', $slug)->firstOrFail();
 		$posts = CommunityPostResource::collection($subreddit->posts()->with('user')->get());
 		$communities = Community::all();
 

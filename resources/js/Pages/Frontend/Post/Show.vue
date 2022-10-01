@@ -76,7 +76,7 @@ let post = ref(props.post.data);
 					</div>
 				</section>
 				<section class="ml-6 w-1/3">
-					<Sidebar :subreddit="subreddit" />
+					<Sidebar />
 				</section>
 			</div>
 		</main>
